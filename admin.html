@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .panel { background: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0; }
+        button { background: #2c3e50; color: white; border: none; padding: 10px; width: 100%; cursor: pointer; }
+        .item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="panel">
+<div class="logo" style="font-size: 28px; font-weight: bold; color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+    ✦ M O D A  S T Y L E ✦
+</div>        <h1>إدارة المتجر</h1>
+        <input type="text" id="pName" placeholder="اسم المنتج">
+        <input type="text" id="pPrice" placeholder="السعر (مثال: 50$)">
+        <input type="text" id="pImg" placeholder="رابط الصورة">
+        <select id="pCategory">
+            <option value="home">الرئيسية</option>
+            <option value="men">الرجال</option>
+            <option value="women">النساء</option>
+        </select>
+        <button onclick="addProduct()">إضافة المنتج</button>
+        <div id="list"></div>
+        <a href="index.html">العودة للرئيسية</a>
+    </div>
+
+    <script>
+        const pass = prompt("أدخل كلمة المرور:");
+        if(pass !== "123") { window.location.href = "index.html"; }
+
+        function addProduct() {
+            let p = { name: document.getElementById('pName').value, price: document.getElementById('pPrice').value, img: document.getElementById('pImg').value, category: document.getElementById('pCategory').value };
+            let list = JSON.parse(localStorage.getItem('allProducts')) || [];
+            list.push(p);
+            localStorage.setItem('allProducts', JSON.stringify(list));
+            location.reload();
+        }
+
+        let list = JSON.parse(localStorage.getItem('allProducts')) || [];
+        list.forEach((p, i) => {
+            document.getElementById('list').innerHTML += `<div class="item">${p.name} (${p.category}) <button onclick="del(${i})" style="background:red">حذف</button></div>`;
+        });
+
+        function del(i) {
+            list.splice(i, 1);
+            localStorage.setItem('allProducts', JSON.stringify(list));
+            location.reload();
+        }
+    </script>
+</body>
+</html>

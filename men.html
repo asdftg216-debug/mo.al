@@ -2,27 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>قسم الرجال</title>
+    <title>قسم الرجال | مودا ستايل</title>
     <style>
-        body { font-family: sans-serif; background: #f4f7f6; margin: 0; }
-        header { background: #2c3e50; padding: 20px; text-align: center; color: white; }
-        nav a { color: #3498db; margin: 0 15px; text-decoration: none; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
-        .card { background: white; padding: 10px; border-radius: 10px; text-align: center; }
-        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 5px; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; }
+        /* شريط التنقل */
+        nav { background: #2c3e50; color: white; padding: 15px; text-align: center; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
+        
+        /* شبكة المنتجات */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
+        .product-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
+        .product-card button { background: #27ae60; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>ملابس الرجال</h1>
-        <nav><a href="index.html">الرئيسية</a> | <a href="men.html">رجال</a> | <a href="women.html">نساء</a></nav>
-    </header>
-    <div class="grid" id="men-list"></div>
+
+    <nav>
+<div class="logo" style="font-size: 28px; font-weight: bold; color: #f1c40f; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+    ✦ M O D A  S T Y L E ✦
+</div>        <a href="index.html">الرئيسية</a>
+        <a href="men.html">الرجال</a>
+        <a href="women.html">النساء</a>
+        <a href="cart.html">السلة 🛒</a>
+        <a href="admin.html">إدارة المتجر</a>
+    </nav>
+
+    <h1 style="text-align:center;">تشكيلة الرجال</h1>
+    
+    <div id="grid" class="grid"></div>
+
     <script>
-        const list = document.getElementById('men-list');
-        for(let i=0; i<20; i++) {
-            list.innerHTML += `<div class="card"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"><p>قميص رجالي ${i+1}</p></div>`;
+        // 1. جلب البيانات من ذاكرة المتصفح
+        let allProducts = JSON.parse(localStorage.getItem('allProducts')) || [];
+        
+        // 2. فلترة المنتجات لتظهر فقط ما صنفته "رجال" (men)
+        const products = allProducts.filter(p => p.category === 'men'); 
+
+        // 3. عرض المنتجات
+        const grid = document.getElementById('grid');
+        
+        if (products.length === 0) {
+            grid.innerHTML = "<p style='text-align:center; width:100%;'>لا توجد منتجات في قسم الرجال حالياً.</p>";
+        } else {
+            products.forEach(p => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <img src="${p.img}" alt="${p.name}">
+                        <h3>${p.name}</h3>
+                        <p>السعر: ${p.price} $</p>
+                        <button onclick="addToCart('${p.name}', '${p.price}')">إضافة للسلة</button>
+                    </div>`;
+            });
+        }
+
+        // 4. وظيفة الإضافة للسلة
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+            cart.push({ name, price });
+            localStorage.setItem('myCart', JSON.stringify(cart));
+            alert("تم إضافة " + name + " إلى السلة!");
         }
     </script>
+
 </body>
 </html>

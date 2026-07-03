@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>سلة المشتريات | مودا ستايل</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+        .cart-item span { font-size: 18px; color: #333; }
+        .delete-btn { background: #e74c3c; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 5px; transition: 0.3s; }
+        .delete-btn:hover { background: #c0392b; }
+        .total-box { margin-top: 20px; padding: 20px; background: #2c3e50; color: white; text-align: center; border-radius: 10px; font-size: 22px; }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #27ae60; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>سلة مشترياتك 🛒</h1>
+        <div id="cart-list"></div>
+        <div class="total-box" id="total-price">إجمالي السعر: 0$</div>
+        <a href="index.html" class="back-link">← العودة للتسوق</a>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+        let list = document.getElementById('cart-list');
+        let totalDisplay = document.getElementById('total-price');
+        let total = 0;
+
+        if (cart.length === 0) {
+            list.innerHTML = "<p style='text-align:center;'>السلة فارغة حالياً.</p>";
+        } else {
+            cart.forEach((item, index) => {
+                // إزالة علامة $ وتحويل النص لرقم للجمع
+                let priceNum = parseInt(item.price.replace('$', ''));
+                total += priceNum;
+                
+                list.innerHTML += `
+                    <div class="cart-item">
+                        <span><strong>${item.name}</strong></span>
+                        <span>${item.price}</span>
+                        <button class="delete-btn" onclick="removeItem(${index})">حذف</button>
+                    </div>`;
+            });
+        }
+
+        totalDisplay.innerText = "إجمالي السعر: " + total + "$";
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('myCart', JSON.stringify(cart));
+            location.reload(); 
+        }
+    </script>
+</body>
+</html>
