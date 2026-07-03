@@ -3,18 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>الرئيسية | مودا ستايل</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; }
-        /* شريط التنقل */
-        nav { background: #2c3e50; color: white; padding: 15px; text-align: center; }
-        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
-        
-        /* شبكة المنتجات */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px; }
-        .product-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-        .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; }
-        .product-card button { background: #27ae60; color: white; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; margin-top: 10px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <style>
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; }
+    
+    /* شريط التنقل المتجاوب */
+    nav { background: #2c3e50; color: white; padding: 15px; text-align: center; }
+    nav a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; font-size: 14px; }
+    
+    /* شبكة المنتجات الذكية */
+    .grid { 
+        display: grid; 
+        padding: 20px; 
+        gap: 20px;
+        /* هذا السطر هو السر: يغير عدد الأعمدة حسب الشاشة */
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    }
+    
+    .product-card { 
+        background: white; 
+        padding: 15px; 
+        border-radius: 10px; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        text-align: center; 
+        transition: transform 0.3s;
+    }
+    .product-card:hover { transform: scale(1.02); }
+    .product-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; }
+    .product-card button { background: #27ae60; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; border-radius: 5px; }
+
+    /* تعديل خاص للجوالات */
+    @media (max-width: 600px) {
+        nav a { font-size: 12px; margin: 0 5px; }
+        h1 { font-size: 20px; }
+    }
+</style>
 </head>
 <body>
 
